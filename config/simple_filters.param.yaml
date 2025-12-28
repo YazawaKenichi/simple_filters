@@ -21,6 +21,12 @@
     pub_topic_name: "/data/distributed"
     window_size: 10
 
+/StandardDeviation:
+  ros__parameters:
+    sub_topic_name: "/data/float"
+    pub_topic_name: "/data/standard_deviation"
+    window_size: 10
+
 /Derivative:
   ros__parameters:
     sub_topic_name: "/data/float"

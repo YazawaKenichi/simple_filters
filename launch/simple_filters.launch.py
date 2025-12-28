@@ -16,6 +16,7 @@ def generate_launch_description():
         Node(package = "simple_filters", executable = "average_filter", output = "screen", parameters = [config]),
         Node(package = "simple_filters", executable = "median_filter", output = "screen", parameters = [config]),
         Node(package = "simple_filters", executable = "distributed_filter", output = "screen", parameters = [config]),
+        Node(package = "simple_filters", executable = "standard_deviation_filter", output = "screen", parameters = [config]),
         Node(package = "simple_filters", executable = "derivative_filter", output = "screen", parameters = [config]),
         ])
 

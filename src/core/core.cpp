@@ -183,7 +183,7 @@ float Distributed::calculate()
         var += d * d;
     }
     var /= static_cast<double>(n);
-    return static_cast<float>(std::sqrt(var));
+    return static_cast<float>(var);
 }
 
 void Distributed::callback(const std_msgs::msg::Float32 & msg)
@@ -198,6 +198,52 @@ void Distributed::callback(const std_msgs::msg::Float32 & msg)
     distributed.data = this->calculate();
 
     this->publisher_->publish(distributed);
+}
+
+StandardDeviation::StandardDeviation() : Node("StandardDeviation"), pub_topic_name_("pub_topic"), sub_topic_name_("sub_topic"), initialized_(false), size_(this->declare_parameter<int>("window_size", 2)), bef_(size_, 0.0)
+{
+    this->declare_parameter("pub_topic_name", this->pub_topic_name_); this->declare_parameter("sub_topic_name", this->sub_topic_name_);
+    this->pub_topic_name_ = this->get_parameter("pub_topic_name").as_string();
+    this->sub_topic_name_ = this->get_parameter("sub_topic_name").as_string();
+
+    this->size_ = static_cast<std::size_t>(this->get_parameter("window_size").as_int());
+    RCLCPP_INFO(this->get_logger(), "sub_topic_name: %s, pub_topic_name: %s", this->sub_topic_name_.c_str(), this->pub_topic_name_.c_str());
+    RCLCPP_INFO(this->get_logger(), "window_size: %ld", this->size_);
+
+    this->publisher_ = this->create_publisher<std_msgs::msg::Float32>(this->pub_topic_name_, 10);
+    this->subscriber_ = this->create_subscription<std_msgs::msg::Float32>(this->sub_topic_name_, 10, std::bind(&StandardDeviation::callback, this, std::placeholders::_1));
+}
+
+float StandardDeviation::calculate()
+{
+    const std::size_t n = this->bef_.size();
+    if (n == 0)
+    {
+        return std::numeric_limits<float>::quiet_NaN();
+    }
+    double mean = std::accumulate(this->bef_.begin(), this->bef_.end(), 0.0f) / static_cast<double>(n);
+    double var = 0.0f;
+    for(double x : this->bef_)
+    {
+        const double d = x - mean;
+        var += d * d;
+    }
+    var /= static_cast<double>(n);
+    return static_cast<float>(std::sqrt(var));
+}
+
+void StandardDeviation::callback(const std_msgs::msg::Float32 & msg)
+{
+    while(this->bef_.size() >= this->size_)
+    {
+        this->bef_.pop_front();
+    }
+    this->bef_.push_back(msg.data);
+
+    std_msgs::msg::Float32 standard_deviation;
+    standard_deviation.data = this->calculate();
+
+    this->publisher_->publish(standard_deviation);
 }
 }
 
