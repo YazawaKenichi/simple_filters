@@ -20,13 +20,13 @@ echo \`\`\`
 cat launch/*
 echo \`\`\`
 
-echo include/*
+echo include/*/*
 echo \`\`\`
-cat include/*
+cat include/*/*
 echo \`\`\`
 
-echo src/*
+echo src/*/*
 echo \`\`\`
-cat src/*
+cat src/*/*
 echo \`\`\`
 

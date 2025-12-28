@@ -8,8 +8,9 @@ using namespace Filters;
 int main(int argc, char * argv[])
 {
     rclcpp::init(argc, argv);
-    rclcpp::spin(std::make_shared<Filters::Median>());
+    rclcpp::spin(std::make_shared<Filters::Caster>());
     rclcpp::shutdown();
     return 0;
 }
+
 

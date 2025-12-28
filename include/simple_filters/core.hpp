@@ -3,10 +3,24 @@
 
 #include "rclcpp/rclcpp.hpp"
 #include "std_msgs/msg/float32.hpp"
+#include "std_msgs/msg/int32.hpp"
 #include <deque>
 
 namespace Filters
 {
+class Caster : public rclcpp::Node
+{
+public:
+    Caster();
+protected:
+private:
+    void callback(const std_msgs::msg::Int32 &);
+    rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr publisher_;
+    rclcpp::Subscription<std_msgs::msg::Int32>::SharedPtr subscriber_;
+    std::string pub_topic_name_;
+    std::string sub_topic_name_;
+};
+
 class Derivative : public rclcpp::Node
 {
 public:

@@ -52,3 +52,5 @@ CATKIN_IGNORE
 
 *.swp
 launch/__pycache__
+.tmp
+

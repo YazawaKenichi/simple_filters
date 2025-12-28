@@ -1,18 +1,41 @@
 //! SPDX-FileCopyrightText: 2024 YAZAWA Kenichi <s21c1036hn@gmail.com>
 //! SPDX-License-Identifier: MIT-LICENSE
 
-#include "filters/core.hpp"
+#include "simple_filters/core.hpp"
 
 #include <std_msgs/msg/float32.hpp>
+#include <std_msgs/msg/int32.hpp>
 
 namespace Filters
 {
-Derivative::Derivative() : Node("Average"), pub_topic_name_("pub_topic"), sub_topic_name_("sub_topic"), initialized_(false), bef_(0)
+Caster::Caster() : Node("Caster"), pub_topic_name_("pub_topic"), sub_topic_name_("sub_topic")
 {
     this->declare_parameter("pub_topic_name", this->pub_topic_name_);
     this->declare_parameter("sub_topic_name", this->sub_topic_name_);
     this->pub_topic_name_ = this->get_parameter("pub_topic_name").as_string();
     this->sub_topic_name_ = this->get_parameter("sub_topic_name").as_string();
+
+    RCLCPP_INFO(this->get_logger(), "sub_topic_name: %s, pub_topic_name: %s", this->sub_topic_name_.c_str(), this->pub_topic_name_.c_str());
+
+    this->publisher_ = this->create_publisher<std_msgs::msg::Float32>(this->pub_topic_name_, 10);
+    this->subscriber_ = this->create_subscription<std_msgs::msg::Int32>(this->sub_topic_name_, 10, std::bind(&Caster::callback, this, std::placeholders::_1));
+}
+
+void Caster::callback(const std_msgs::msg::Int32 & msg)
+{
+    std_msgs::msg::Float32 pub_msg_;
+    pub_msg_.data = msg.data;
+    this->publisher_->publish(pub_msg_);
+}
+
+Derivative::Derivative() : Node("Derivative"), pub_topic_name_("pub_topic"), sub_topic_name_("sub_topic"), initialized_(false), bef_(0)
+{
+    this->declare_parameter("pub_topic_name", this->pub_topic_name_);
+    this->declare_parameter("sub_topic_name", this->sub_topic_name_);
+    this->pub_topic_name_ = this->get_parameter("pub_topic_name").as_string();
+    this->sub_topic_name_ = this->get_parameter("sub_topic_name").as_string();
+
+    RCLCPP_INFO(this->get_logger(), "sub_topic_name: %s, pub_topic_name: %s", this->sub_topic_name_.c_str(), this->pub_topic_name_.c_str());
 
     this->publisher_ = this->create_publisher<std_msgs::msg::Float32>(this->pub_topic_name_, 10);
     this->subscriber_ = this->create_subscription<std_msgs::msg::Float32>(this->sub_topic_name_, 10, std::bind(&Derivative::callback, this, std::placeholders::_1));
@@ -46,6 +69,9 @@ Average::Average() : Node("Average"), pub_topic_name_("pub_topic"), sub_topic_na
     this->sub_topic_name_ = this->get_parameter("sub_topic_name").as_string();
 
     this->size_ = static_cast<std::size_t>(this->get_parameter("window_size").as_int());
+
+    RCLCPP_INFO(this->get_logger(), "sub_topic_name: %s, pub_topic_name: %s", this->sub_topic_name_.c_str(), this->pub_topic_name_.c_str());
+    RCLCPP_INFO(this->get_logger(), "window_size: %ld", this->size_);
 
     this->publisher_ = this->create_publisher<std_msgs::msg::Float32>(this->pub_topic_name_, 10);
     this->subscriber_ = this->create_subscription<std_msgs::msg::Float32>(this->sub_topic_name_, 10, std::bind(&Average::callback, this, std::placeholders::_1));
@@ -81,6 +107,9 @@ Median::Median() : Node("Median"), pub_topic_name_("pub_topic"), sub_topic_name_
     this->sub_topic_name_ = this->get_parameter("sub_topic_name").as_string();
 
     this->size_ = static_cast<std::size_t>(this->get_parameter("window_size").as_int());
+
+    RCLCPP_INFO(this->get_logger(), "sub_topic_name: %s, pub_topic_name: %s", this->sub_topic_name_.c_str(), this->pub_topic_name_.c_str());
+    RCLCPP_INFO(this->get_logger(), "window_size: %ld", this->size_);
 
     this->publisher_ = this->create_publisher<std_msgs::msg::Float32>(this->pub_topic_name_, 10);
     this->subscriber_ = this->create_subscription<std_msgs::msg::Float32>(this->sub_topic_name_, 10, std::bind(&Median::callback, this, std::placeholders::_1));

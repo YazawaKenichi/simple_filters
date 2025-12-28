@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(filters)
+project(simple_filters)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -16,17 +16,21 @@ ament_auto_add_library(${PROJECT_NAME} SHARED
   )
 
 # 実行ファイル関係 add_executable
-ament_auto_add_executable(average
+ament_auto_add_executable(caster_i2f
+  src/caster/main.cpp)
+target_link_libraries(caster_i2f ${PROJECT_NAME})
+
+ament_auto_add_executable(average_filter
   src/average/main.cpp)
-target_link_libraries(average ${PROJECT_NAME})
+target_link_libraries(average_filter ${PROJECT_NAME})
 
-ament_auto_add_executable(median
+ament_auto_add_executable(median_filter
   src/median/main.cpp)
-target_link_libraries(median ${PROJECT_NAME})
+target_link_libraries(median_filter ${PROJECT_NAME})
 
-ament_auto_add_executable(derivative
+ament_auto_add_executable(derivative_filter
   src/derivative/main.cpp)
-target_link_libraries(derivative ${PROJECT_NAME})
+target_link_libraries(derivative_filter ${PROJECT_NAME})
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

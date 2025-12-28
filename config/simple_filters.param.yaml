@@ -1,0 +1,22 @@
+/Caster:
+  ros__parameters:
+    sub_topic_name: "/hx711/raw"
+    pub_topic_name: "/data/int"
+
+/Average:
+  ros__parameters:
+    sub_topic_name: "/data/int"
+    pub_topic_name: "/data/average"
+    window_size: 10
+
+/Median:
+  ros__parameters:
+    sub_topic_name: "/data/int"
+    pub_topic_name: "/data/median"
+    window_size: 10
+
+/Derivative:
+  ros__parameters:
+    sub_topic_name: "/data/int"
+    pub_topic_name: "/data/derivative"
+

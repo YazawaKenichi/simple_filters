@@ -1,5 +1,0 @@
-/**:
-  ros__parameters:
-    pub_topic_name: "/pub_topic"
-    sub_topic_name: "/sub_topic"
-
