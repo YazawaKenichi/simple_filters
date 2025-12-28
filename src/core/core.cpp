@@ -65,7 +65,7 @@ void Derivative::callback(const std_msgs::msg::Float32 & msg)
     this->bef_ = now;
 }
 
-Average::Average() : Node("Average"), pub_topic_name_("pub_topic"), sub_topic_name_("sub_topic"), initialized_(false), size_(this->declare_parameter<int>("window_size", 2)), bef_(size_, 0.0)
+Average::Average() : Node("Average"), pub_topic_name_("pub_topic"), sub_topic_name_("sub_topic"), initialized_(false), size_(this->declare_parameter<int>("window_size", 2)), bef_()
 {
     this->declare_parameter("pub_topic_name", this->pub_topic_name_);
     this->declare_parameter("sub_topic_name", this->sub_topic_name_);
@@ -97,13 +97,18 @@ void Average::callback(const std_msgs::msg::Float32 & msg)
     }
     this->bef_.push_back(msg.data);
 
+    if(this->bef_.size() < this->size_)
+    {
+        return ;
+    }
+
     std_msgs::msg::Float32 average;
     average.data = this->calculate();
 
     this->publisher_->publish(average);
 }
 
-Median::Median() : Node("Median"), pub_topic_name_("pub_topic"), sub_topic_name_("sub_topic"), initialized_(false), size_(this->declare_parameter<int>("window_size", 2)), bef_(size_, 0.0)
+Median::Median() : Node("Median"), pub_topic_name_("pub_topic"), sub_topic_name_("sub_topic"), initialized_(false), size_(this->declare_parameter<int>("window_size", 2)), bef_()
 {
     this->declare_parameter("pub_topic_name", this->pub_topic_name_);
     this->declare_parameter("sub_topic_name", this->sub_topic_name_);
@@ -147,13 +152,18 @@ void Median::callback(const std_msgs::msg::Float32 & msg)
     }
     this->bef_.push_back(msg.data);
 
+    if(this->bef_.size() < this->size_)
+    {
+        return ;
+    }
+
     std_msgs::msg::Float32 median;
     median.data = this->calculate();
 
     this->publisher_->publish(median);
 }
 
-Distributed::Distributed() : Node("Distributed"), pub_topic_name_("pub_topic"), sub_topic_name_("sub_topic"), initialized_(false), size_(this->declare_parameter<int>("window_size", 2)), bef_(size_, 0.0)
+Distributed::Distributed() : Node("Distributed"), pub_topic_name_("pub_topic"), sub_topic_name_("sub_topic"), initialized_(false), size_(this->declare_parameter<int>("window_size", 2)), bef_()
 {
     this->declare_parameter("pub_topic_name", this->pub_topic_name_); this->declare_parameter("sub_topic_name", this->sub_topic_name_);
     this->pub_topic_name_ = this->get_parameter("pub_topic_name").as_string();
@@ -194,13 +204,18 @@ void Distributed::callback(const std_msgs::msg::Float32 & msg)
     }
     this->bef_.push_back(msg.data);
 
+    if(this->bef_.size() < this->size_)
+    {
+        return ;
+    }
+
     std_msgs::msg::Float32 distributed;
     distributed.data = this->calculate();
 
     this->publisher_->publish(distributed);
 }
 
-StandardDeviation::StandardDeviation() : Node("StandardDeviation"), pub_topic_name_("pub_topic"), sub_topic_name_("sub_topic"), initialized_(false), size_(this->declare_parameter<int>("window_size", 2)), bef_(size_, 0.0)
+StandardDeviation::StandardDeviation() : Node("StandardDeviation"), pub_topic_name_("pub_topic"), sub_topic_name_("sub_topic"), initialized_(false), size_(this->declare_parameter<int>("window_size", 2)), bef_()
 {
     this->declare_parameter("pub_topic_name", this->pub_topic_name_); this->declare_parameter("sub_topic_name", this->sub_topic_name_);
     this->pub_topic_name_ = this->get_parameter("pub_topic_name").as_string();
@@ -239,6 +254,11 @@ void StandardDeviation::callback(const std_msgs::msg::Float32 & msg)
         this->bef_.pop_front();
     }
     this->bef_.push_back(msg.data);
+
+    if(this->bef_.size() < this->size_)
+    {
+        return ;
+    }
 
     std_msgs::msg::Float32 standard_deviation;
     standard_deviation.data = this->calculate();
