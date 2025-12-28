@@ -50,6 +50,7 @@ MovingAverage::MovingAverage() : Node("MovingAverage"), pub_topic_name_("pub_top
     this->publisher_ = this->create_publisher<std_msgs::msg::Float32>(this->pub_topic_name_, 10);
     this->subscriber_ = this->create_subscription<std_msgs::msg::Float32>(this->sub_topic_name_, 10, std::bind(&MovingAverage::callback, this, std::placeholders::_1));
 }
+
 void MovingAverage::callback(const std_msgs::msg::Float32 & msg)
 {
     while(this->bef_.size() >= this->size_)

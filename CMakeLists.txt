@@ -12,12 +12,21 @@ ament_auto_find_build_dependencies()
 
 # ライブラリ関係 ament_target_dependencies
 ament_auto_add_library(${PROJECT_NAME} SHARED
-  src/node.cpp
-  src/core.cpp)
+  src/average/node.cpp
+  src/average/core.cpp
+  src/derivative/node.cpp
+  src/derivative/core.cpp
+  src/median/node.cpp
+  src/median/core.cpp
+  )
 
 # 実行ファイル関係 add_executable
-ament_auto_add_executable(filters_exe
-  src/core.cpp)
+ament_auto_add_executable(average
+  src/average/core.cpp)
+ament_auto_add_executable(derivative
+  src/derivative/core.cpp)
+ament_auto_add_executable(median
+  src/median/core.cpp)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -37,3 +46,4 @@ ament_auto_package(
   config
   launch
 )
+
