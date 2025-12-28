@@ -1,4 +1,4 @@
-# filters
+# simple_filters
 
 ## Overview
 フィルタをかますだけのパッケージ
@@ -12,12 +12,12 @@
 1. ワークスペースにこのパッケージをクローン
     ``` cmd
     cd ~/ros2_ws/src/
-    git clone https://github.com/yazawakenichi/filters
+    git clone https://github.com/yazawakenichi/simple_filters
     ```
 2. パッケージのビルド
     ``` cmd
     cd ~/ros2_ws/
-    colcon build --packages-select filters
+    colcon build --packages-select simple_filters --symlink-install
     ```
 3. 実行ファイルのオーバーレイ
     ``` cmd
@@ -30,16 +30,24 @@
 新しくターミナルを開いた場合、ノードを起動する前に `source install/local_setup.bash` することを忘れないでください。
 
 ``` cmd
-ros2 launch filters filters.launch.py
+ros2 launch simple_filters simple_filters.launch.py
 ```
 
 ## Package Description
 
+#### Node
+|Name|Type|Description
+|---|---|---
+|``|| ... するノード
+|``|| ... するノード
+|``|| ... するノード
+|``|| ... するノード
+
 #### Topic
 |Name|Type|Description
 |---|---|---
-|`/pub_topic`|`std_msgs::msg::String`| Publish するトピック
-|`/sub_topic`|`std_msgs::msg::String`| Subscrbe するトピック
+|``|`std_msgs::msg::`| ...
+|``|`std_msgs::msg::`| ...
 
 ### Parameters
 |Name|Type|Default|Description
