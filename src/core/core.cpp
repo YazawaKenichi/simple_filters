@@ -28,7 +28,7 @@ Caster::Caster() : Node("Caster"), pub_topic_name_("pub_topic"), sub_topic_name_
 void Caster::callback(const std_msgs::msg::Int32 & msg)
 {
     std_msgs::msg::Float32 pub_msg_;
-    pub_msg_.data = msg.data;
+    pub_msg_.data = static_cast<float>(msg.data);
     this->publisher_->publish(pub_msg_);
 }
 
