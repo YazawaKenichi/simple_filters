@@ -1,28 +1,28 @@
 /Caster:
   ros__parameters:
     sub_topic_name: "/hx711/raw"
-    pub_topic_name: "/data/int"
+    pub_topic_name: "/data/float"
 
 /Average:
   ros__parameters:
-    sub_topic_name: "/data/int"
+    sub_topic_name: "/data/float"
     pub_topic_name: "/data/average"
     window_size: 10
 
 /Median:
   ros__parameters:
-    sub_topic_name: "/data/int"
+    sub_topic_name: "/data/float"
     pub_topic_name: "/data/median"
     window_size: 10
 
 /Distributed:
   ros__parameters:
-    sub_topic_name: "/data/int"
+    sub_topic_name: "/data/float"
     pub_topic_name: "/data/distributed"
     window_size: 10
 
 /Derivative:
   ros__parameters:
-    sub_topic_name: "/data/int"
+    sub_topic_name: "/data/float"
     pub_topic_name: "/data/derivative"
 
