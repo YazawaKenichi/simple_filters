@@ -1,7 +1,7 @@
 // SPDX-FileCopyrightText: 2024 YAZAWA Kenichi <s21c1036hn@gmail.com>
 // SPDX-License-Identifier: MIT-LICENSE
 
-#include "core.hpp"
+#include "filters/core.hpp"
 
 using namespace Filters;
 

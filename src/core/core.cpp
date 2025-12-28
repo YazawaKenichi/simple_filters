@@ -1,7 +1,7 @@
 //! SPDX-FileCopyrightText: 2024 YAZAWA Kenichi <s21c1036hn@gmail.com>
 //! SPDX-License-Identifier: MIT-LICENSE
 
-#include "core.hpp"
+#include "filters/core.hpp"
 
 #include <std_msgs/msg/float32.hpp>
 
@@ -56,7 +56,7 @@ float Average::calculate()
     double sum = std::accumulate(this->bef_.begin(), this->bef_.end(), 0.0);
     std_msgs::msg::Float32 average;
 
-    average.data = sum / this->bef_.size();
+    return (float) sum / this->bef_.size();
 }
 
 void Average::callback(const std_msgs::msg::Float32 & msg)
@@ -93,7 +93,7 @@ float Median::calculate()
     const std::size_t n = sorted.size();
     if(n ==0)
     {
-        return ;
+        return std::numeric_limits<float>::lowest();
     }
     else if(n % 2 == 1)
     {
@@ -103,7 +103,7 @@ float Median::calculate()
     {
         return static_cast<float>((sorted[n / 2 - 1] + sorted[n / 2]) / 2.0f);
     }
-    return ;
+    return std::numeric_limits<float>::lowest();
 }
 
 void Median::callback(const std_msgs::msg::Float32 & msg)
