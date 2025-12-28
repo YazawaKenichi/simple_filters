@@ -15,6 +15,12 @@
     pub_topic_name: "/data/median"
     window_size: 10
 
+/Distributed:
+  ros__parameters:
+    sub_topic_name: "/data/int"
+    pub_topic_name: "/data/distributed"
+    window_size: 10
+
 /Derivative:
   ros__parameters:
     sub_topic_name: "/data/int"

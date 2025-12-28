@@ -75,6 +75,25 @@ private:
     std::size_t size_;
     std::deque<double> bef_;
 };
+
+class Distributed : public rclcpp::Node
+{
+public:
+    Distributed();
+
+protected:
+
+private:
+    float calculate();
+    void callback(const std_msgs::msg::Float32 &);
+    rclcpp::Publisher<std_msgs::msg::Float32>::SharedPtr publisher_;
+    rclcpp::Subscription<std_msgs::msg::Float32>::SharedPtr subscriber_;
+    std::string pub_topic_name_;
+    std::string sub_topic_name_;
+    bool initialized_;
+    std::size_t size_;
+    std::deque<double> bef_;
+};
 }
 
 #endif

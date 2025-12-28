@@ -28,6 +28,10 @@ ament_auto_add_executable(median_filter
   src/median/main.cpp)
 target_link_libraries(median_filter ${PROJECT_NAME})
 
+ament_auto_add_executable(distributed_filter
+  src/distributed/main.cpp)
+target_link_libraries(distributed_filter ${PROJECT_NAME})
+
 ament_auto_add_executable(derivative_filter
   src/derivative/main.cpp)
 target_link_libraries(derivative_filter ${PROJECT_NAME})
